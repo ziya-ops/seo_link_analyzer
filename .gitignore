@@ -1,2 +1,6 @@
 # Ignore python virtual env files
 venv/
+
+#Ignore pycache & temperory pyc files
+__pycache__
+*.pyc
