@@ -2,6 +2,8 @@ from lxml import html
 from urllib.parse import urlparse
 import requests
 
+# get_urls_from_string parses the web page content and
+# returns all the urls available on the page in the form of a list
 def get_urls_from_string(page_content, base_url):
     doc_tree = html.fromstring(page_content)
     doc_tree.make_links_absolute(base_url=base_url)
@@ -13,6 +15,8 @@ def get_urls_from_string(page_content, base_url):
 
     return output_urls_list
 
+# normalize_url returs the base path of a url
+# its used to avoid dupllicate urls
 def normalize_url(url):
     parsed_url_obj = urlparse(url)
     normalized_url = parsed_url_obj.netloc + parsed_url_obj.path
