@@ -8,7 +8,7 @@ def main():
         exit(1)
     
     base_url = sys.argv[1] 
-    print(base_url)
+    #print(base_url)
 
     url_count_dict = {}
     url_count_dict = crawl_page(base_url, url_count_dict)
