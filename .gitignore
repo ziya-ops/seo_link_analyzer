@@ -2,5 +2,5 @@
 venv/
 
 #Ignore pycache & temperory pyc files
-__pycache__
+__pycache__/
 *.pyc

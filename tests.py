@@ -1,8 +1,7 @@
 import unittest
 
-from report import remove_none_values
-from report import sort_pages
-from crawl import get_urls_from_string
+from report import remove_none_values, sort_pages
+from crawl import get_urls_from_string, normalize_url
 
 class Tests(unittest.TestCase):
     def test_remove_none_values(self):
@@ -42,6 +41,15 @@ class Tests(unittest.TestCase):
             "https://blog.boot.dev",
         ),
     )
+
+    def test_normalize_url(self):
+        self.assertEqual("boot.dev",normalize_url("https://Boot.dev"))
+        self.assertEqual("boot.dev",normalize_url("http://boot.dev"))
+        self.assertEqual("boot.dev",normalize_url("http://boot.dev/"))
+        self.assertEqual("boot.dev",normalize_url("https://boot.dev#header"))
+        self.assertEqual("boot.dev",normalize_url("https://boot.dev?via=lane"))
+        self.assertEqual("blog.boot.dev/python",normalize_url("https://blog.boot.dev/python?q=lane"),
+        )
 
 if __name__ == "__main__":
     unittest.main()
