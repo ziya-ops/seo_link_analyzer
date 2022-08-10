@@ -40,8 +40,7 @@ def crawl_page(base_url, pages):
 
     except Exception as e:
         print(e)
-
-    return pages
+        return pages
 
 
     url_list = get_urls_from_string(resp.content, base_url)
