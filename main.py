@@ -11,7 +11,7 @@ def main():
     #print(base_url)
 
     url_count_dict = {}
-    url_count_dict = crawl_page(base_url, url_count_dict)
+    url_count_dict = crawl_page(base_url, base_url, url_count_dict)
     print(url_count_dict)
 
 if __name__ == "__main__":

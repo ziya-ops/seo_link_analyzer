@@ -32,20 +32,47 @@ def validate_response(resp, url):
         raise Exception(f"{url} didn't result in HTML response")
 
 
-def crawl_page(base_url, pages):
-    
-    resp = requests.get(base_url)
-    try:
-        validate_response(resp,base_url)
+def crawl_page(base_url, current_url, pages):
 
+    normalized_url = normalize_url(current_url)
+
+    # create entry for the new normalized current_url
+    if normalized_url not in pages:
+        pages[normalized_url] = 0
+
+    # if current url does not belong to the base site, skip it
+    if urlparse(base_url).netloc != urlparse(current_url).netloc:
+        pages[normalized_url] = None
+        return pages
+    
+    # if we have already checked this normalized url and it is invalid, skip it
+    if pages[normalized_url] is None:
+        return pages
+        
+    # if we have already validated this normalized url then increase the count and skip
+    if pages[normalized_url] > 0:
+        pages[normalized_url] += 1
+        return pages
+    
+    # make a request to current url
+    resp = requests.get(current_url)
+    try:
+        validate_response(resp,current_url)
+
+    # if response invlid, log it and skip
     except Exception as e:
         print(e)
+        pages[normalized_url] = None
         return pages
 
+    # increament the count for this url
+    pages[normalized_url] +=1
 
+    # get all urls available on base url page and crawl each link found
     url_list = get_urls_from_string(resp.content, base_url)
     for url in url_list:
-        pages[url] = 1
+        
+        crawl_page(base_url, url, pages)
     
     return pages
 
