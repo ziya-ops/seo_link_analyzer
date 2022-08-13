@@ -27,5 +27,12 @@ def sort_pages(dict):
     sorted_list.sort(reverse=True, key=return_value)
     return sorted_list
 
+def print_report(pages):
+    pages_without_none = remove_none_values(pages)
+    pages_sorted_list = sort_pages(pages_without_none)
+
+    for link_count in pages_sorted_list:
+        print(f"Found {link_count[1]} internal links to {link_count[0]}")
+
 
 
